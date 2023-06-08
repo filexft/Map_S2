@@ -2,8 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package graphv1;
+package finalGraph;
 
+import graphv1.*;
 import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
@@ -82,17 +83,21 @@ public class Graph {
         return adjacentList.get(node);
     }
     
-    public void fillGraph(File file1, File file2){
+    public boolean fillGraph(File file1, File file2){
+        boolean fileFound;
         File listAdjac;
         File listSucc;
-        if(file1 == null || file2 == null){
+        if(file1 == null || file2 == null) {
             listAdjac = new File("liste-adjacence-jeuEssai.csv");
             listSucc = new File("liste-successeurs.csv");
-            System.out.println("default files");
+            System.out.println("Default graph");
+            System.out.println(file1 + " ," + file2);
+            fileFound = false;
         }else{
-            listAdjac = file1;
-            listSucc = file2;
-            System.out.println("deposed file");
+            System.out.println("file found");
+            listAdjac = file1; //new File(file1);
+            listSucc = file2; //new File(file2);
+            fileFound = true;
         }
         try{
             
@@ -115,6 +120,7 @@ public class Graph {
             ArrayList<String> adjLineList = new ArrayList<String>();
             while (scAdj.hasNext()) {
               adjLineList.add(scAdj.nextLine());
+//              System.out.println(adjLineList.get(adjLineList.size()-1));
             }
             
             
@@ -190,6 +196,7 @@ public class Graph {
         catch (IOException e){
             System.out.println(e.getMessage());
         }
+        return fileFound;
     }
     
     public Node getNodeByNum(int num){
@@ -309,7 +316,7 @@ public class Graph {
                 if(true){
                     if(distances.get(adjacentNode) > getDistanceOrTimeBetweenTwoNodes(currentNode, adjacentNode, type) + distances.get(currentNode) ){
                                     distances.put(adjacentNode, getDistanceOrTimeBetweenTwoNodes(currentNode, adjacentNode, type) + distances.get(currentNode));
-                                    //System.out.println(adjacentNode.getId() + " - " + currentNode);
+                                    
                                     prev.put(adjacentNode, currentNode);
                     }
                 }
@@ -397,15 +404,12 @@ public class Graph {
         ArrayList<Node> reversedPath;
         Node current = end;
         
-        while(prev.get(current) != null){
-            current.setColor(Color.blue);
-            System.out.println(current.getId());
+        
+        //path.add(end);
+        while(!prev.get(current).equals(source)){
              path.add(current);
              current = prev.get(current);
         }
-        end.setColor(Color.black);
-        source.setColor(Color.yellow);
-        //path.add(prev.get(source));
         path.add(source);
         reversedPath = reverseArrayList(path);
         System.out.println(reversedPath);
@@ -423,15 +427,10 @@ public class Graph {
         Node current = end;
         
         //pathFiab.add(end);
-        end.setColor(Color.black);
+        
         while(!prev.get(current).equals(source)){
-            current.setColor(Color.blue);
-            if(current.equals(source)){
-                current.setColor(Color.yellow);
-            }
-            
-            pathFiab.add(current);
-            current = prev.get(current);
+             pathFiab.add(current);
+             current = prev.get(current);
         }
         
         pathFiab.add(source);
@@ -579,15 +578,5 @@ public class Graph {
         }
     }
     
-    
-     public Node getNodeAtPos(int x, int y){
-         int nodeRadius = 15;
-         for(Node n: listNode){
-            if(n.getX() < x + nodeRadius && n.getX() > x - nodeRadius && n.getY() < y + nodeRadius && n.getY() > y - nodeRadius ){
-                return n;
-            }
-        }
-        return null;
-    }
     
 }

@@ -4,6 +4,7 @@
  */
 package graphv1;
 
+import java.awt.Color;
 import java.util.Comparator;
 import sae_graph.*;
 
@@ -15,6 +16,7 @@ public class Node implements Comparator<Node>{
     private String id;
     private String type;
     private int x, y;
+    private Color color= Color.red;
 
     public Node(String id, String type) {
         this.id = id;
@@ -37,6 +39,11 @@ public class Node implements Comparator<Node>{
         return y;
     }    
 
+    
+    public Color getColor() {
+        return color;
+    }
+    
     public void setX(int x) {
         this.x = x;
     }
@@ -44,6 +51,17 @@ public class Node implements Comparator<Node>{
     public void setY(int y) {
         this.y = y;
     }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
+    }
+    
+
+    
     
     
     @Override

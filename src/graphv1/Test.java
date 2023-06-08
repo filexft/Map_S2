@@ -5,6 +5,7 @@
 package graphv1;
 
 import com.formdev.flatlaf.FlatLightLaf;
+import java.io.File;
 import sae_graph.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,8 +25,8 @@ public class Test {
         FlatLightLaf.setup();
         Graph graph = new Graph();
        
-        graph.fillGraph();
-        graph.printTwoNodeWithType(graph.getNodeByString("S3"), graph.getNodeByString("S2"), "M");
+        //graph.fillGraph();
+        //graph.printTwoNodeWithType(graph.getNodeByString("S3"), graph.getNodeByString("S2"), "M");
        //graph.printGraph();
 //        System.out.println("time dijkstra ");
 //        graph.printShortByDistanceOrTime(graph.getNodeByString("S1"), graph.getNodeByString("S17"), "t");
@@ -33,7 +34,14 @@ public class Test {
 //        graph.printShortByFiability(graph.getNodeByString("S1"), graph.getNodeByString("S17"));
 //        //graph.ShortestPathFiability(graph.getNodeByString("S1"));
         
-        Guitest g = new Guitest(graph.getNodeList(), graph.getAdjacentList());
+        //graph.fillGraph(null, null);
+        Screen0 g = new Screen0(graph);
+        //boolean fileFound = graph.fillGraph(g.getFile1(), g.getFile2());
+        //File f1 = g.getFile1();
+        //System.out.println("file :" + f1.getAbsolutePath());
+        //g.setFileStatus(fileFound);
+        //graph.fillGraph(null, null);
+        //graph.printShortByDistanceOrTime(graph.getNodeByString("S1"), graph.getNodeByString("S17"), "t");
         g.setVisible(true);
     }
     

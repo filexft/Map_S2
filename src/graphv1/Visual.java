@@ -40,29 +40,36 @@ public final class Visual extends JPanel{
         private int panelWidth;
         private int panelHeight;
         
-        private Node seletedNode;
+        private Node selectedNode;
+        private Node selectedEndNode;
         boolean isSelected = false;
         
+        private JFrame frame;
+        
+        private Graph graph;
         ArrayList<Node> nodes; //= new ArrayList<Node>();
         HashMap<Node, ArrayList<Edge>> adjacentList; //= new HashMap<Node, ArrayList<Edge>>();
         
         
         
         
-        public Visual(JPanel visualPanel, ArrayList<Node> nodeList, HashMap<Node, ArrayList<Edge>> adjacList){
+        public Visual(JPanel visualPanel, Graph graph, JFrame fram){
             this.setSize(visualPanel.getWidth(), visualPanel.getHeight());
             this.setVisible(true);
             
             panelWidth = visualPanel.getWidth();
             panelHeight = visualPanel.getHeight();
             
+            frame = fram;
+            this.graph = graph;
+            nodes = graph.getNodeList();
+            adjacentList = graph.getAdjacentList();
             
-            nodes = nodeList;
-            adjacentList = adjacList;
             center_X = visualPanel.getWidth()/2;
             center_Y = visualPanel.getHeight()/2;
-            nodesLayer = (int) Math.ceil(nodeList.size()/8);
-            nodesPerLayer = nodeList.size()/nodesLayer;
+           
+            nodesLayer = (int) Math.ceil(graph.getNodeList().size()/8);
+            nodesPerLayer = graph.getNodeList().size()/nodesLayer;
             //init nodes pos
             setNodePosition();
             /**
@@ -71,67 +78,45 @@ public final class Visual extends JPanel{
             this.addMouseListener(new MouseAdapter(){
                 @Override
                 public void mousePressed(MouseEvent e) {
-//                     if(seletedNode == null) return;
-//                    seletedNode = getNodeAtPos(e.getX(), e.getY());
-//                    start_X = seletedNode.getX();
-//                    start_Y = seletedNode.getY();
-
-                    seletedNode = getNodeAtPos(e.getX(), e.getY());
-                    if(seletedNode == null) return;
+                    if(selectedNode != null){
+                        selectedNode.setColor(Color.RED);
+                        graph.initialColor();
+                        graph.printDirectConnectedNode(selectedNode);
+                    }
+                    selectedNode = getNodeAtPos(e.getX(), e.getY());
                 }
 
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    
-                    for(Node n: nodes){
-                        for(Edge line: adjacentList.get(n)){
-                            double distance = Line2D.ptSegDist​(n.getX(), n.getY(), 
-                                   line.getDest().getX(), line.getDest().getY(),
-                                   e.getX(), e.getY());
+                    if(selectedNode != null){
+                        selectedNode.setColor(Color.RED);
+                        graph.initialColor();
+                        graph.printDirectConnectedNode(selectedNode);
+                    }
+                    selectedNode = getNodeAtPos(e.getX(), e.getY());
+                    if(selectedNode == null){
+                        for(Node n: nodes){
+                            for(Edge line: adjacentList.get(n)){
+                                double distance = Line2D.ptSegDist​(n.getX(), n.getY(), 
+                                       line.getDest().getX(), line.getDest().getY(),
+                                       e.getX(), e.getY());
 
-                            if (distance < 2) {
-                                // success!
-                                System.out.println("line entre " + n.getId() + " et "  +line.getDest().getId());
+                                if (distance < 2) {
+                                    // success!
+                                    System.out.println("line entre " + n.getId() + " et "  +line.getDest().getId());
+                                }
                             }
                         }
+                        return;
                     }
-                    
-//                    if(seletedNode != null){
-//                         seletedNode.setX(e.getX());
-//                         seletedNode.setX(e.getY());
-//                         seletedNode = null;
-//                    }
-//                    seletedNode = getNodeAtPos(e.getX(), e.getY());
-//                     if(seletedNode == null) return;
-                     
-//                     
-//                    System.out.println("clicked " + seletedNode.getId() + "at "+ seletedNode.getX() + "," + seletedNode.getY());
-//                    start_X = seletedNode.getX();
-//                    start_Y = seletedNode.getY();
-
-//                      for(Node n: nodes){
-//                          for(Edge e : adjacentList.get(n)){
-//                              
-//                          }
-//                      }
+                    System.out.println(selectedNode.getId());
+                    selectedNode.setColor(Color.BLUE);
+                    System.out.println(selectedNode.getColor());
+                    repaint();
                 }
                 
                 @Override
                 public void mouseReleased(MouseEvent e) {
-                    
-//                    if(seletedNode != null){
-//                         seletedNode.setX(e.getX());
-//                         seletedNode.setX(e.getY());
-//                         seletedNode = null;
-//                    }
-//                    System.out.println(e.getX()+" , "+ e.getY());
-////                    if(seletedNode == null) return;
-//                    
-//                    seletedNode.setX(e.getX());
-//                    seletedNode.setY(e.getY());
-//                    System.out.println("release " + seletedNode.getId() + "at "+ seletedNode.getX() + "," + seletedNode.getY());
-//                    repaint();
-//                    revalidate();
                 }
                 
             });
@@ -140,24 +125,22 @@ public final class Visual extends JPanel{
                 @Override
                 public void mouseDragged(MouseEvent e) {
                     //
-                     if(seletedNode == null) return;
-                    System.out.println(seletedNode.getId() + "moved to" +e.getX()+ ", "+ e.getY());
+                     if(selectedNode == null) return;
                     
                     if(e.getX() <= 0 )
                     {
-                        seletedNode.setX((int) nodeRadius + 5);
+                        selectedNode.setX((int) nodeRadius + 5);
                     }else if (e.getX() >= panelWidth){
-                        seletedNode.setX((int) (panelWidth - nodeRadius));
+                        selectedNode.setX((int) (panelWidth - nodeRadius));
                     }
                     else if(e.getY() <= 0 )
                     {
-                        seletedNode.setY((int) nodeRadius + 5);
+                        selectedNode.setY((int) nodeRadius + 5);
                     }else if (e.getY() >= panelHeight){
-                        seletedNode.setY((int) (panelHeight - nodeRadius));
+                        selectedNode.setY((int) (panelHeight - nodeRadius));
                     }else{
-                        seletedNode.setX(e.getX());
-                        seletedNode.setY(e.getY());
-                        System.out.println("dragged " + seletedNode.getId() + "at "+ seletedNode.getX() + "," + seletedNode.getY());
+                        selectedNode.setX(e.getX());
+                        selectedNode.setY(e.getY());
                         repaint();
                         revalidate();
                     }
@@ -165,51 +148,18 @@ public final class Visual extends JPanel{
 
                 @Override
                 public void mouseMoved(MouseEvent e) {
-                    //
-//                    if(seletedNode == null) return;
-//                    System.out.println(seletedNode.getId() + "moved to" +e.getX()+ ", "+ e.getY());
-//                    
-//                    seletedNode.setX(e.getX());
-//                    seletedNode.setY(e.getY());
-//                    System.out.println("release " + seletedNode.getId() + "at "+ seletedNode.getX() + "," + seletedNode.getY());
-//                    repaint();
-//                    revalidate();
+                   
                 }
                 
             });
             this.setVisible(true);
-        }
- 
+        } 
         @Override
         public void paintComponent(Graphics g){
             super.paintComponent(g);
             Graphics2D g2d = (Graphics2D) g;
             g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
             g2d.setColor(Color.red);
-            
-            
-//            double layerRadius = innerRadius;
-//            
-//           
-//            int i = 0;
-//            for(int layer = 0; layer < nodesLayer; layer++){
-//                double angleStep = 2 * Math.PI/ nodesPerLayer;
-//                
-//                for(int node = 0; node < nodesPerLayer; node++){
-//                    double angle = angleStep * node;
-//                    double x = center_X + layerRadius * Math.cos(angle) - nodeRadius;
-//                    double y = center_Y + layerRadius * Math.sin(angle) - nodeRadius;
-//                    
-//                    nodes.get(i).setX((int) (x + nodeRadius));
-//                    nodes.get(i).setY((int) (y + nodeRadius) );
-//                    i++;
-//                }
-//                
-//                layerRadius += layerSpacing;
-//            }
-            
-            
-            
             
             
             //connecting the nodes by edges
@@ -232,7 +182,7 @@ public final class Visual extends JPanel{
                   
                     
                     Shape nodeCircle = new Ellipse2D.Double(x, y, 2 * nodeRadius, 2 * nodeRadius);
-                    g2d.setColor(Color.red);
+                    g2d.setColor(nodes.get(j).getColor());
                     g2d.fill(nodeCircle);
                     
                     //write the names
@@ -286,6 +236,12 @@ public final class Visual extends JPanel{
             return null;
         }
         
+        
+        
         //end of slate
+
+    public Node getSelectedNode() {
+        return selectedNode;
+    }
     }
     
