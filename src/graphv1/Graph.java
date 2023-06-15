@@ -83,6 +83,10 @@ public class Graph {
     }
     
     public void fillGraph(File file1, File file2){
+        //initialise the nodelist and adjacent list to not add another time when you import a file multiple times
+        listNode = new ArrayList<Node>();
+        adjacentList = new HashMap<Node, ArrayList<Edge>>();
+        
         File listAdjac;
         File listSucc;
         if(file1 == null || file2 == null){
@@ -178,7 +182,7 @@ public class Graph {
                                 int dist = Integer.parseInt(cellData[1].trim());
                                 int temp = Integer.parseInt(cellData[2].trim());
                                 
-                                addEdge(sourceNode, destNode, 10, 10,10);
+                                addEdge(sourceNode, destNode, fiab, dist, temp);
                                 col++;
                             }
                         }
@@ -389,30 +393,37 @@ public class Graph {
         }
         return prev;
     }
-    
-    public void printShortByDistanceOrTime(Node source, Node end, String type){
+    //F15 Donner le chemin le plus court en distance et en durée, entre 2 sites.
+    public ArrayList<Node> printShortByDistanceOrTime(Node source, Node end, String type){
         HashMap<Node, Node> prev = ShortestPathByDistanceAndTime(source, type);
         
         ArrayList<Node> path = new ArrayList<Node>();
         ArrayList<Node> reversedPath;
         Node current = end;
         
+        
         while(prev.get(current) != null){
             current.setColor(Color.blue);
-            System.out.println(current.getId());
-             path.add(current);
-             current = prev.get(current);
+            path.add(current);
+            current = prev.get(current);
         }
         end.setColor(Color.black);
         source.setColor(Color.yellow);
         //path.add(prev.get(source));
         path.add(source);
         reversedPath = reverseArrayList(path);
+        int sum = 0;
+        for(int i = 0; i < path.size()-1; i++){
+            sum += getDistanceOrTimeBetweenTwoNodes(path.get(i), path.get(i+1), type);
+        }
         System.out.println(reversedPath);
+//        System.out.println("dist test : " + getDistanceOrTimeBetweenTwoNodes(path.get(0), path.get(1), type));
+        System.out.println("the sum is : " + sum + " and the path - 2 index is : "+ path.get(path.size()-1));
+        return reversedPath;
         
     }
-    
-    public void printShortByFiability(Node source, Node end){
+    //F13 Étant donné 2 nœuds quelconques du graphe, définir le chemin le plus fiable 
+    public ArrayList<Node> printShortByFiability(Node source, Node end){
         
         HashMap<Node, Node> prev = ShortestPathFiability(source);
         
@@ -424,20 +435,24 @@ public class Graph {
         
         //pathFiab.add(end);
         end.setColor(Color.black);
-        while(!prev.get(current).equals(source)){
+        while(prev.get(current) != null){
             current.setColor(Color.blue);
-            if(current.equals(source)){
-                current.setColor(Color.yellow);
-            }
             
             pathFiab.add(current);
             current = prev.get(current);
         }
-        
+        end.setColor(Color.black);
+        source.setColor(Color.yellow);
         pathFiab.add(source);
         reversedPathFiab = reverseArrayList(pathFiab);
+        double sum = 1.0;
+        for(int i = 0; i < pathFiab.size()-1; i++){
+            System.out.println("fiab :" + getFiabiliteBetweenTwoNodes(pathFiab.get(i), pathFiab.get(i+1)));
+            sum *= getFiabiliteBetweenTwoNodes(pathFiab.get(i), pathFiab.get(i+1)) / 10;
+        }
+        System.out.println("the sum is : " + sum );
         System.out.println(reversedPathFiab);
-        
+        return reversedPathFiab;
     }
     
     
@@ -461,34 +476,68 @@ public class Graph {
      * F5
      * Lister tous les nœuds (regroupés par catégories) ou un type donné de nœud, et leur nombre par type
      */
-    public void printNodesByType(){
+    public String printNodesByType(String type){
+        
         String typeName[] = {"nutrition", "bloc operatoires", "maternite"};
-        String type[] = {"M", "O", "N"};
-        for(int i = 0; i < type.length; i++){
-            System.out.println("Noeuds regroupes par " + typeName[i]);
+        String types[] = {"N", "O", "M"};
+        String returnString = "";
+        int numPerType = 0;
+        int typenum = 0;
+        
+       
+        if (type != null){
+             switch(type){
+            case "N" -> typenum = 0;
+            case "O" -> typenum = 1;
+            case "M" -> typenum = 2;
+            }
+            returnString += "Noeuds regroupes par " + typeName[typenum] + "\n";
             for(Node n: listNode){
-                if(n.getType().equals(type[i])){
-                    System.out.println(n.getId() + " , type :" + n.getType());
+                    if(n.getType().equals(types[typenum])){
+                        System.out.println(n.getId() + " , type :" + n.getType());
+                        returnString += n.getId() + " , type :" + n.getType() + "\n";
+                        numPerType++;
                 }
             }
-            System.out.println("\n\n");
+        }else {
+            for(int i = 0; i < types.length; i++){
+                numPerType = 0;
+                System.out.println("Noeuds regroupes par " + typeName[i]);
+                returnString += "Noeuds regroupes par " + typeName[i] + "\n";
+                for(Node n: listNode){
+                    if(n.getType().equals(types[i])){
+                        System.out.println(n.getId() + " , type :" + n.getType());
+                        returnString += n.getId() + " , type :" + n.getType() + "\n";
+                        numPerType++;
+                    }
+                }
+                System.out.println("\n\n");
+                returnString += "il y a " + numPerType + " Noeuds regroupes par " + typeName[i];
+                returnString += "\n\n";
+            }
         }
+        return returnString;
     }
     
     /**
      * F6. 
      * Lister toutes les arêtes et donner leur nombre ;
      */
-    public void printEdgeAndNumber(){
+    public String printEdgeAndNumber(){
+        String returnString = "";
         int edgeNumber = 0;
         for(Map.Entry<Node, ArrayList<Edge>> pair: adjacentList.entrySet()){
             for(Edge edge: pair.getValue()){
-                System.out.println(pair.getKey().getId() + " -- " + edge.getDest().getId() );
+                //System.out.println(pair.getKey().getId() + " -- " + edge.getDest().getId() );
+                returnString += pair.getKey().getId() + " -- " +  edge.getFiab() + ", " + edge.getDist() + ", " + edge.getTemp()+ " --- " + edge.getDest().getId() + "\n";
                 edgeNumber++;
             }
-            System.out.println("\n");
+            //System.out.println("\n");
+            returnString += "\n";
         }
-        System.out.println("le nombre des aretes est :" + edgeNumber);
+        //System.out.println("le nombre des aretes est :" + edgeNumber);
+        returnString += "le nombre des aretes est :" + edgeNumber;
+        return returnString;
     }
     
     
@@ -496,11 +545,17 @@ public class Graph {
      * F7.Pour un sommet donné, lister les voisins directs (nœuds à 1-distance) ;
      * @param n
      */
-    public void printDirectConnectedNode(Node n){
+    public ArrayList<Node> printDirectConnectedNode(Node n){
+        if(n == null) return null;
+        ArrayList<Node> returnList = new ArrayList<>();
+        returnList.add(n);
         for (Edge e : adjacentList.get(n)){
             e.getDest().setColor(Color.BLACK);
-            System.out.println(n.getId() +" est voisins directs a :" + e.getDest().getId());
+            returnList.add(e.getDest());
+            //System.out.println(n.getId() +" est voisins directs a :" + e.getDest().getId());
         }
+        
+        return returnList;
     }
     
     public void initialColor(){
@@ -513,50 +568,93 @@ public class Graph {
      * @param n
      * @param type
      */
-    public void printDirectConnectedNodeByType(Node n, String type){
+    public String printDirectConnectedNodeByType(Node n, String type){
         int ConnectedNodeNumber = 0;
         String typeName[] = {"nutrition", "bloc operatoires", "maternite"};
         int typenum = 0;
         
+        String returnStr = ""; 
         switch(type){
             case "N" -> typenum = 0;
-            case "0" -> typenum = 1;
+            case "O" -> typenum = 1;
             case "M" -> typenum = 2;
         }
         for (Edge e : adjacentList.get(n)){
             if(e.getDest().getType().equals(type)){
+                
                 System.out.println(n.getId() +" est voisins directs a :" + e.getDest().getId() +" et le type est :" + typeName[typenum]);
+                
+                returnStr += n.getId() +" est voisins directs a ->  " + e.getDest().getId() +" et le type est :" + typeName[typenum] + "\n";
                 ConnectedNodeNumber++;
             }
         }
         if(ConnectedNodeNumber == 0){
             System.out.println("il y a pas un voisin de type " + typeName[typenum]);
+            returnStr += "\nil y a pas un voisin de type " + typeName[typenum] + "\n";
         }else{
             System.out.println("\nil y a " + ConnectedNodeNumber +  "  voisin de type " + typeName[typenum] + "\n");
+            returnStr += "\nil y a " + ConnectedNodeNumber +  "  voisin de type " + typeName[typenum] + "\n";
         }
+        return returnStr;
     }
     
     /**
      * F11. Étant donné 2 nœuds, dire s’ils sont à 2-distance ou pas ;
      */
-    public void printNodeAreConnected(Node source, Node end){
-        
-        for(Edge edgeA : adjacentList.get(source)){
-            for(Edge edgeB : adjacentList.get(edgeA.getDest())){
-                    if(edgeB.getDest().equals(end)){
-                        System.out.println(source.getId() + " est a 2 distance de " + end.getId());
-                        return;
-                    }
+    public String printNodeAreConnectedAt2Dist(Node source, Node end){
+        String returnString = "";
+        if(!source.equals(end))
+        {
+            for(Edge edgeA : adjacentList.get(source)){
+                for(Edge edgeB : adjacentList.get(edgeA.getDest())){
+                        if(edgeB.getDest().equals(end)){
+                            System.out.println(source.getId() + " est a 2 distance de " + end.getId());
+                            returnString += source.getId() + " est a 2 distance de " + end.getId();
+                            return returnString;
+                        }
+                }
             }
         }
         System.out.println(source.getId() + " n'est pas  a 2 distance de " + end.getId());
+        returnString += source.getId() + " n'est pas  a 2 distance de " + end.getId();
+        return returnString;
     }
+    
+    /**
+     * F11. voisinage à p sauts et chemins (p-distance)
+     */
+//    public String printNodeAreConnectedAtNDist(Node source, int n){
+//        String returnString = "";
+//        if(n == 0){
+//            return source.getId();
+//        }
+//        else{
+//            
+//        }
+//        for(Edge edgeA : adjacentList.get(source)){
+//            for (int i = 0; i < n; i++){
+//                for(Edge edgeB : adjacentList.get(edgeA.getDest())){
+//                        if(edgeB.getDest().equals(end)){
+//                            System.out.println(source.getId() + " est a 2 distance de " + end.getId());
+//                            returnString += source.getId() + " est a 2 distance de " + end.getId();
+//                            return returnString;
+//                        }
+//                }
+//            }
+//        }
+//        System.out.println(source.getId() + " n'est pas  a 2 distance de " + end.getId());
+//        returnString += source.getId() + " n'est pas  a 2 distance de " + end.getId();
+//        return returnString;
+//    }
+    
+    
     
     /**
      * F10. Pour 2 sommets donnés, lister les sommets voisins d’un type donné des centres S1 et S2 
      *(ex. : liste des blocs opératoires en voisins directs de S1 et S2) ; 
      */
-    public void printTwoNodeWithType(Node n, Node m, String type){
+    public String printTwoNodeWithType(Node n, Node m, String type){
+        String returnString = "";
         String typeName[] = {"nutrition", "bloc operatoires", "maternite"};
         int typenum = 0;
         
@@ -575,8 +673,13 @@ public class Graph {
         for(Edge e: adjacentList.get(m)){
             if(e.getDest().getType().equals(type) && firstNodeConnectedNodes.contains(e.getDest())){
                 System.out.println(n.getId() + " et " + m.getId() + " est connecte avec " + e.getDest().getId() + " et son type est " + typeName[typenum]);
+                returnString += n.getId() + " et " + m.getId() + " est connecte avec " + e.getDest().getId() + " et son type est " + typeName[typenum] + "\n";
             }
         }
+        if(returnString.isBlank()){
+            returnString += "il y a pas un lien avec ce type!";
+        }
+        return returnString;
     }
     
     
