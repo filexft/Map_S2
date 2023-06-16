@@ -4,6 +4,7 @@
  */
 package graphv1;
 
+import GraphFinal.Node;
 import sae_graph.*;
 
 /**

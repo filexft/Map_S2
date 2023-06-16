@@ -4,6 +4,7 @@
  */
 package graphv1;
 
+import GraphFinal.Node;
 import java.awt.Color;
 import java.util.Comparator;
 import sae_graph.*;

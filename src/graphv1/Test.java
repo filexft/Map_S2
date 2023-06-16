@@ -4,6 +4,8 @@
  */
 package graphv1;
 
+import GraphFinal.Screen0;
+import GraphFinal.Graph;
 import com.formdev.flatlaf.FlatLightLaf;
 import java.io.File;
 import sae_graph.*;

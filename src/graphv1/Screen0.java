@@ -4,6 +4,10 @@
  */
 package graphv1;
 
+import GraphFinal.Edge;
+import GraphFinal.Node;
+import GraphFinal.Graph;
+import GraphFinal.Visual;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;

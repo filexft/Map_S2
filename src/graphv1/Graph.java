@@ -4,6 +4,8 @@
  */
 package graphv1;
 
+import GraphFinal.Edge;
+import GraphFinal.Node;
 import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
