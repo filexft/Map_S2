@@ -634,9 +634,9 @@ public class Screen0 extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        String path = filefinder().getAbsolutePath();
+        File path = filefinder();
         if( path == null) return;
-        file1 = path;
+        file1 = path.getAbsolutePath();
         if(file1 != null){
             listAdjacentCheckBox.setSelected(true);
         }
@@ -644,9 +644,9 @@ public class Screen0 extends javax.swing.JFrame {
 
     private void succFileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_succFileButtonActionPerformed
         // TODO add your handling code here:
-        String path = filefinder().getAbsolutePath();
+        File path = filefinder();
         if(path == null) return ;
-        file2 = path; 
+        file2 = path.getAbsolutePath(); 
         if(file2 != null){
             listSuccesseurCheckBox.setSelected(true);
         }
