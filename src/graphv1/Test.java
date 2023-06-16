@@ -43,6 +43,8 @@ public class Test {
         //System.out.println("file :" + f1.getAbsolutePath());
         //g.setFileStatus(fileFound);
         //graph.fillGraph(null, null);
+        //graph.printShortByFiability(graph.getNodeByString("S1"), graph.getNodeByString("S17"));
+        //System.out.println(graph.printEdgeAndNumber());
         //graph.printShortByDistanceOrTime(graph.getNodeByString("S1"), graph.getNodeByString("S17"), "t");
         g.setVisible(true);
     }

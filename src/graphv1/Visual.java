@@ -4,10 +4,16 @@
  */
 package graphv1;
 
+<<<<<<< HEAD
 import GraphFinal.Edge;
 import GraphFinal.Graph;
 import GraphFinal.Node;
+=======
+import java.awt.AlphaComposite;
+import java.awt.BasicStroke;
+>>>>>>> feature/add_file_import_interface
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
@@ -45,20 +51,21 @@ public final class Visual extends JPanel{
         
         private Node selectedNode;
         private Node selectedEndNode;
-        boolean isSelected = false;
+        private boolean isSelected = false;
         
         private JFrame frame;
         
         private Graph graph;
-        ArrayList<Node> nodes; //= new ArrayList<Node>();
-        HashMap<Node, ArrayList<Edge>> adjacentList; //= new HashMap<Node, ArrayList<Edge>>();
+        private ArrayList<Node> nodes; //= new ArrayList<Node>();
+        private HashMap<Node, ArrayList<Edge>> adjacentList; //= new HashMap<Node, ArrayList<Edge>>();
         
-        
+        private ArrayList<Node> path;
         
         
         public Visual(JPanel visualPanel, Graph graph, JFrame fram){
             this.setSize(visualPanel.getWidth(), visualPanel.getHeight());
-            this.setVisible(true);
+            this.setPreferredSize(new Dimension(visualPanel.getWidth(), visualPanel.getHeight()));
+            
             
             panelWidth = visualPanel.getWidth();
             panelHeight = visualPanel.getHeight();
@@ -81,20 +88,29 @@ public final class Visual extends JPanel{
             this.addMouseListener(new MouseAdapter(){
                 @Override
                 public void mousePressed(MouseEvent e) {
+                    //System.out.println("Presingg");
+                    selectedNode = getNodeAtPos(e.getX(), e.getY());  
                     if(selectedNode != null){
-                        selectedNode.setColor(Color.RED);
                         graph.initialColor();
-                        graph.printDirectConnectedNode(selectedNode);
+                        selectedNode.setColor(Color.RED);
+                        selectedNode.setColor(Color.BLUE);
+                        path =  graph.printDirectConnectedNode(selectedNode);
+                    }else{
+                        graph.initialColor();
+                        path = null;
                     }
-                    selectedNode = getNodeAtPos(e.getX(), e.getY());
+                    repaint();
                 }
 
                 @Override
                 public void mouseClicked(MouseEvent e) {
+                    //System.out.println("clicking");
+                    //graph.initialColor();
                     if(selectedNode != null){
-                        selectedNode.setColor(Color.RED);
-                        graph.initialColor();
-                        graph.printDirectConnectedNode(selectedNode);
+//                        graph.initialColor();
+//                        selectedNode.setColor(Color.RED);
+//                        graph.printDirectConnectedNode(selectedNode);
+                          
                     }
                     selectedNode = getNodeAtPos(e.getX(), e.getY());
                     if(selectedNode == null){
@@ -165,49 +181,123 @@ public final class Visual extends JPanel{
             g2d.setColor(Color.red);
             
             
-            //connecting the nodes by edges
-            for(Map.Entry<Node, ArrayList<Edge>> set : adjacentList.entrySet()){
-                ArrayList<Edge> edges = set.getValue();
-                for(Edge e: edges){
-                    g2d.setColor(Color.BLUE);
-                    g2d.drawLine(set.getKey().getX(), set.getKey().getY(), e.getDest().getX(), e.getDest().getY());
+            if(path == null){
+                //connecting the nodes by edges
+                for(Map.Entry<Node, ArrayList<Edge>> set : adjacentList.entrySet()){
+                    ArrayList<Edge> edges = set.getValue();
+                    for(Edge e: edges){
+                        g2d.setColor(Color.red);
+                        g2d.setStroke(new BasicStroke(0.5f));
+                        g2d.drawLine(set.getKey().getX(), set.getKey().getY(), e.getDest().getX(), e.getDest().getY());
+                    }
                 }
-            }
-            double layerRadius = innerRadius ;
-            int j = 0;
-            for(int layer = 0; layer < nodesLayer; layer++){
-                double angleStep = 2 * Math.PI/ nodesPerLayer;
-                
-                for(int node = 0; node < nodesPerLayer; node++){
-                    double angle = angleStep * node;
-                    double x = nodes.get(j).getX() - nodeRadius ;
-                    double y = nodes.get(j).getY() - nodeRadius ;
-                  
-                    
-                    Shape nodeCircle = new Ellipse2D.Double(x, y, 2 * nodeRadius, 2 * nodeRadius);
-                    g2d.setColor(nodes.get(j).getColor());
-                    g2d.fill(nodeCircle);
-                    
-                    //write the names
-                    Font font = new Font("Arial", Font.BOLD, 12);
-                    g2d.setFont(font);
-                    g2d.setColor(Color.WHITE);
-                    FontMetrics fontMetrics = g2d.getFontMetrics();
-                    int textWidth = fontMetrics.stringWidth( nodes.get(j).getId());
-                    int textHeight = fontMetrics.getHeight();
-                    //int textX = (int) (x - textWidth / 2 + nodeRadius) ;
-                    int textY = (int) (x + textHeight / 2 + nodeRadius);
-                    g2d.drawString(nodes.get(j).getId(), (int) (x + 5), (int) (y + nodeRadius + 7));
-                    
-                    
-                    
-                    j++;
+                double layerRadius = innerRadius ;
+                int j = 0;
+                for(int layer = 0; layer < nodesLayer; layer++){
+                    double angleStep = 2 * Math.PI/ nodesPerLayer;
+
+                    for(int node = 0; node < nodesPerLayer; node++){
+                        double angle = angleStep * node;
+                        double x = nodes.get(j).getX() - nodeRadius ;
+                        double y = nodes.get(j).getY() - nodeRadius ;
+
+
+                        Shape nodeCircle = new Ellipse2D.Double(x, y, 2 * nodeRadius, 2 * nodeRadius);
+                        g2d.setColor(nodes.get(j).getColor());
+
+                        
+                        g2d.fill(nodeCircle);
+
+                        //write the names
+                        Font font = new Font("Arial", Font.BOLD, 12);
+                        g2d.setFont(font);
+                        g2d.setColor(Color.WHITE);
+                        FontMetrics fontMetrics = g2d.getFontMetrics();
+                        int textWidth = fontMetrics.stringWidth( nodes.get(j).getId());
+                        int textHeight = fontMetrics.getHeight();
+                        //int textX = (int) (x - textWidth / 2 + nodeRadius) ;
+                        int textY = (int) (x + textHeight / 2 + nodeRadius);
+                        g2d.drawString(nodes.get(j).getId(), (int) (x + 5), (int) (y + nodeRadius + 7));
+
+
+
+                        j++;
+                    }
+
+                    layerRadius += layerSpacing;
                 }
-                
-                layerRadius += layerSpacing;
+            }else{
+                 //connecting the nodes by edges
+                for(Map.Entry<Node, ArrayList<Edge>> set : adjacentList.entrySet()){
+                    ArrayList<Edge> edges = set.getValue();
+                    for(Edge e: edges){
+                        //allows us to set the opacity using the setComposite() 
+                        //method. The AlphaComposite class is used to define the transparency level (opacity). 
+//                      
+//                        if(path.contains(e.getDest()) && path.contains(set.getKey()) || path.get(0).equals(e.getDest())){
+//                            g2d.setColor(Color.blue);
+//                            g2d.drawLine(set.getKey().getX(), set.getKey().getY(), e.getDest().getX(), e.getDest().getY());
+//                    
+//                        }else{
+//                            g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
+//                            g2d.setStroke(new BasicStroke(0.5f));
+//                            g2d.setColor(Color.red);
+//                            g2d.drawLine(set.getKey().getX(), set.getKey().getY(), e.getDest().getX(), e.getDest().getY());
+//                    
+//                        }
+
+                        g2d.setColor(Color.blue);
+                        g2d.drawLine(set.getKey().getX(), set.getKey().getY(), e.getDest().getX(), e.getDest().getY());
+                    
+                    }
+                }
+                double layerRadius = innerRadius ;
+                int j = 0;
+                for(int layer = 0; layer < nodesLayer; layer++){
+                    double angleStep = 2 * Math.PI/ nodesPerLayer;
+
+                    for(int node = 0; node < nodesPerLayer; node++){
+                        double angle = angleStep * node;
+                        double x = nodes.get(j).getX() - nodeRadius ;
+                        double y = nodes.get(j).getY() - nodeRadius ;
+
+
+                        Shape nodeCircle = new Ellipse2D.Double(x, y, 2 * nodeRadius, 2 * nodeRadius);
+                        g2d.setColor(nodes.get(j).getColor());
+
+                        //allows us to set the opacity using the setComposite() 
+                        //method. The AlphaComposite class is used to define the transparency level (opacity).
+                        if(path.contains(nodes.get(j))){
+                            g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1));
+                        }else{
+                            g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
+                            
+                        }
+                        
+                        g2d.fill(nodeCircle);
+
+                        //write the names
+                        Font font = new Font("Arial", Font.BOLD, 12);
+                        g2d.setFont(font);
+                        g2d.setColor(Color.WHITE);
+                        FontMetrics fontMetrics = g2d.getFontMetrics();
+                        int textWidth = fontMetrics.stringWidth( nodes.get(j).getId());
+                        int textHeight = fontMetrics.getHeight();
+                        //int textX = (int) (x - textWidth / 2 + nodeRadius) ;
+                        int textY = (int) (x + textHeight / 2 + nodeRadius);
+                        g2d.drawString(nodes.get(j).getId(), (int) (x + 5), (int) (y + nodeRadius + 7));
+
+
+
+                        j++;
+                    }
+
+                    layerRadius += layerSpacing;
+                }
             }
             repaint();
         }
+        
         public void setNodePosition(){
             double layerRadius = innerRadius;
             
@@ -240,9 +330,25 @@ public final class Visual extends JPanel{
         }
         
         
-        
+     
         //end of slate
 
+    public String EdgeConnectedNode(int x, int y){
+        for(Node n: nodes){
+            for(Edge line: adjacentList.get(n)){
+                double distance = Line2D.ptSegDist​(n.getX(), n.getY(),
+                        line.getDest().getX(), line.getDest().getY(),
+                        x, y);
+                if (distance < 2) {
+                    // success!                                    
+                    System.out.println("line entre " + n.getId() + " et "  +line.getDest().getId());
+                    return (n.getId() + ";"  +line.getDest().getId());
+                }
+            }
+        }
+        return "";
+    }    
+    
     public Node getSelectedNode() {
         return selectedNode;
     }

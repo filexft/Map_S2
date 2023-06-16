@@ -9,12 +9,15 @@ import GraphFinal.Node;
 import GraphFinal.Graph;
 import GraphFinal.Visual;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
@@ -63,20 +66,43 @@ public class Screen0 extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel2 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        succFileButton = new javax.swing.JButton();
         showGraphButton = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         listAdjacentCheckBox = new javax.swing.JCheckBox();
         listSuccesseurCheckBox = new javax.swing.JCheckBox();
         fileStatusLabel = new javax.swing.JLabel();
         dijkstraCheckBox = new javax.swing.JCheckBox();
-        startSpinner = new javax.swing.JSpinner();
-        endSpinner = new javax.swing.JSpinner();
+        jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        startSpinner = new javax.swing.JSpinner();
         jLabel2 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jButton3 = new javax.swing.JButton();
+        endSpinner = new javax.swing.JSpinner();
+        EdgeNodeCheckBox = new javax.swing.JCheckBox();
+        screenTabbedPane = new javax.swing.JTabbedPane();
         graphVisualPanel = new javax.swing.JPanel();
+        printPanel = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        printTextArea = new javax.swing.JTextArea();
+        jLabel6 = new javax.swing.JLabel();
+        listButton = new javax.swing.JButton();
+        choiceComboBox = new javax.swing.JComboBox<>();
+        functionNodeSpinner = new javax.swing.JSpinner();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        typeComboBox = new javax.swing.JComboBox<>();
+        jLabel9 = new javax.swing.JLabel();
+        functionNodeSpinner2 = new javax.swing.JSpinner();
+        jLabel10 = new javax.swing.JLabel();
+        typeCheckBox = new javax.swing.JCheckBox();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(900, 700));
@@ -86,14 +112,22 @@ public class Screen0 extends javax.swing.JFrame {
                 formComponentResized(evt);
             }
         });
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel2.setMaximumSize(new java.awt.Dimension(100, 32767));
 
-        jButton1.setText("liste-successeurs");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        succFileButton.setText("liste-successeurs");
+        succFileButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                succFileButtonActionPerformed(evt);
             }
         });
 
@@ -133,16 +167,6 @@ public class Screen0 extends javax.swing.JFrame {
             }
         });
 
-        startSpinner.setModel(new javax.swing.SpinnerNumberModel(0, 0, 30, 1));
-
-        endSpinner.setModel(new javax.swing.SpinnerNumberModel(0, 0, 30, 1));
-
-        jLabel1.setText("S");
-
-        jLabel2.setText("->");
-
-        jLabel4.setText("S");
-
         jButton3.setText("start Dikjstra");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -150,85 +174,296 @@ public class Screen0 extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(14, 14, 14)
+        jButton4.setText("default graph");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setFont(new java.awt.Font("Times New Roman", 3, 24)); // NOI18N
+        jLabel3.setText("Aide décisionnelle");
+
+        jLabel5.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        jLabel5.setText("Centres de Santé");
+
+        jLabel1.setText("S");
+
+        startSpinner.setModel(new javax.swing.SpinnerNumberModel(1, 1, 30, 1));
+
+        jLabel2.setText("->");
+
+        jLabel4.setText("S");
+
+        endSpinner.setModel(new javax.swing.SpinnerNumberModel(1, 1, 30, 1));
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(startSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(endSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(endSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(49, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(listAdjacentCheckBox)
-                            .addComponent(listSuccesseurCheckBox))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(startSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel4)
+                    .addComponent(endSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(36, 36, 36))
+        );
+
+        EdgeNodeCheckBox.setText("EdgeNodefinder");
+        EdgeNodeCheckBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EdgeNodeCheckBoxActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jLabel3))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                        .addGap(40, 40, 40)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton2)
-                            .addComponent(jButton1)
-                            .addComponent(showGraphButton)
-                            .addComponent(dijkstraCheckBox))
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(fileStatusLabel)
-                        .addGap(62, 62, 62))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(jButton3)
-                        .addGap(40, 40, 40))))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(EdgeNodeCheckBox)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(dijkstraCheckBox)
+                                .addGap(13, 13, 13))
+                            .addComponent(showGraphButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                .addComponent(listSuccesseurCheckBox)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(succFileButton, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                .addComponent(listAdjacentCheckBox)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButton2)))))
+                .addGap(62, 62, 62))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(27, 27, 27)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(89, 89, 89)
+                        .addComponent(jButton3))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(93, 93, 93)
+                        .addComponent(jButton4))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(134, 134, 134)
+                        .addComponent(fileStatusLabel))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(94, 94, 94)
+                        .addComponent(jLabel5)))
+                .addContainerGap(35, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(119, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2)
-                    .addComponent(listAdjacentCheckBox))
-                .addGap(18, 18, 18)
+                .addContainerGap()
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1)
-                    .addComponent(listSuccesseurCheckBox))
-                .addGap(18, 18, 18)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(jButton2)
+                        .addGap(18, 18, 18)
+                        .addComponent(succFileButton))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(listAdjacentCheckBox)
+                        .addGap(18, 18, 18)
+                        .addComponent(listSuccesseurCheckBox)))
+                .addGap(35, 35, 35)
                 .addComponent(showGraphButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(fileStatusLabel)
-                .addGap(30, 30, 30)
-                .addComponent(dijkstraCheckBox)
+                .addGap(18, 18, 18)
+                .addComponent(jButton4)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(startSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(endSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel4))
+                    .addComponent(dijkstraCheckBox)
+                    .addComponent(EdgeNodeCheckBox))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton3)
-                .addGap(47, 47, 47))
+                .addGap(105, 105, 105))
         );
 
         getContentPane().add(jPanel2, java.awt.BorderLayout.LINE_END);
+
+        screenTabbedPane.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                screenTabbedPaneMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout graphVisualPanelLayout = new javax.swing.GroupLayout(graphVisualPanel);
         graphVisualPanel.setLayout(graphVisualPanelLayout);
         graphVisualPanelLayout.setHorizontalGroup(
             graphVisualPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 440, Short.MAX_VALUE)
+            .addGap(0, 618, Short.MAX_VALUE)
         );
         graphVisualPanelLayout.setVerticalGroup(
             graphVisualPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 428, Short.MAX_VALUE)
+            .addGap(0, 473, Short.MAX_VALUE)
         );
 
-        getContentPane().add(graphVisualPanel, java.awt.BorderLayout.CENTER);
+        screenTabbedPane.addTab("Graph", graphVisualPanel);
+
+        printTextArea.setColumns(20);
+        printTextArea.setRows(5);
+        jScrollPane1.setViewportView(printTextArea);
+
+        jLabel6.setText("S");
+
+        listButton.setText("Show result");
+        listButton.setEnabled(false);
+        listButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                listButtonActionPerformed(evt);
+            }
+        });
+
+        choiceComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Lister nœuds (par catégories/type)", "Lister arêtes", "Voisins directs d'un nœud", "Voisins directs d'un type spécifique pour un nœud", "Sommets voisins d'un type spécifique des centres S? et S?", "Vérifier si deux nœuds sont à 2-distance", "Chemin le plus fiable entre 2 nœuds", "Chemin le plus court en  durée entre 2 sites", "Chemin le plus court en distance  entre 2 sites", "Modes" }));
+        choiceComboBox.setSelectedIndex(choiceComboBox.getItemCount()-1);
+        choiceComboBox.setToolTipText("this is the list of dunctionality");
+        choiceComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                choiceComboBoxActionPerformed(evt);
+            }
+        });
+
+        functionNodeSpinner.setModel(new javax.swing.SpinnerNumberModel(1, 1, 30, 1));
+        functionNodeSpinner.setEnabled(false);
+
+        jLabel7.setText("Functionality :");
+
+        jLabel8.setText("Node  :");
+
+        typeComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Centre de nutrition (N)", "Bloc Opératoire (O)", "Maternité (M)" }));
+        typeComboBox.setEnabled(false);
+        typeComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                typeComboBoxActionPerformed(evt);
+            }
+        });
+
+        jLabel9.setText("Type :");
+
+        functionNodeSpinner2.setModel(new javax.swing.SpinnerNumberModel(1, 1, 30, 1));
+        functionNodeSpinner2.setEnabled(false);
+
+        jLabel10.setText("S");
+
+        typeCheckBox.setText("utilise le type");
+        typeCheckBox.setEnabled(false);
+        typeCheckBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                typeCheckBoxActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout printPanelLayout = new javax.swing.GroupLayout(printPanel);
+        printPanel.setLayout(printPanelLayout);
+        printPanelLayout.setHorizontalGroup(
+            printPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(printPanelLayout.createSequentialGroup()
+                .addGap(26, 26, 26)
+                .addGroup(printPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 392, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7)
+                    .addComponent(listButton)
+                    .addGroup(printPanelLayout.createSequentialGroup()
+                        .addGroup(printPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel6)
+                            .addGroup(printPanelLayout.createSequentialGroup()
+                                .addComponent(choiceComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(84, 84, 84))
+                            .addComponent(jLabel10))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(printPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(printPanelLayout.createSequentialGroup()
+                                .addComponent(functionNodeSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(70, 70, 70)
+                                .addComponent(typeCheckBox))
+                            .addGroup(printPanelLayout.createSequentialGroup()
+                                .addGroup(printPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel8)
+                                    .addComponent(functionNodeSpinner2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(54, 54, 54)
+                                .addGroup(printPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(typeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel9))))))
+                .addContainerGap(127, Short.MAX_VALUE))
+        );
+        printPanelLayout.setVerticalGroup(
+            printPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, printPanelLayout.createSequentialGroup()
+                .addGap(63, 63, 63)
+                .addComponent(jLabel7)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(printPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(printPanelLayout.createSequentialGroup()
+                        .addComponent(choiceComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(2, 2, 2)
+                        .addGroup(printPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel6)
+                            .addComponent(functionNodeSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(printPanelLayout.createSequentialGroup()
+                        .addGroup(printPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel8)
+                            .addComponent(jLabel9))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(typeCheckBox)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(printPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel10)
+                    .addGroup(printPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(functionNodeSpinner2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(typeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 82, Short.MAX_VALUE)
+                .addComponent(listButton)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28))
+        );
+
+        screenTabbedPane.addTab("Print", printPanel);
+
+        getContentPane().add(screenTabbedPane, java.awt.BorderLayout.CENTER);
+
+        jMenu1.setText("Functionalité");
+        jMenuBar1.add(jMenu1);
+
+        jMenu2.setText("Edit");
+        jMenuBar1.add(jMenu2);
+
+        setJMenuBar(jMenuBar1);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -241,13 +476,20 @@ public class Screen0 extends javax.swing.JFrame {
             graphV = null;
             System.out.println("check is true");
             graph.fillGraph(file1, file2);
-            file1 = null;
-            file2 = null;
             graphV = new Visual(graphVisualPanel, graph, this);
             graphVisualPanel.add(graphV);
             this.setSize(this.getWidth() + 1, this.getHeight());
             nodes = graph.getNodeList();
             adjacentList = graph.getAdjacentList();
+            
+            
+            screenTabbedPane.setEnabledAt(1, true);
+            //deactivate the check box
+            listAdjacentCheckBox.setSelected(false);
+            listSuccesseurCheckBox.setSelected(false);
+            
+            
+            fileStatusLabel.setText("le graph est bien chargé");
         }else{
             fileStatusLabel.setText("il y a un problem avec le fichiers");
         }
@@ -255,7 +497,10 @@ public class Screen0 extends javax.swing.JFrame {
 
     private void formComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentResized
         // TODO add your handling code here:
-        if(graphV == null || nodes == null || adjacentList == null) return;
+        screenTabbedPane.setPreferredSize(new Dimension((int) (this.getWidth() * 0.7), this.getHeight()));
+        
+        if(graphV == null) return;
+        graphV.setNodePosition();
         graphV.repaint();
     }//GEN-LAST:event_formComponentResized
 
@@ -268,13 +513,13 @@ public class Screen0 extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void succFileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_succFileButtonActionPerformed
         // TODO add your handling code here:
         file2 = filefinder();
         if(file2 != null){
             listSuccesseurCheckBox.setSelected(true);
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_succFileButtonActionPerformed
 
     private void listAdjacentCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listAdjacentCheckBoxActionPerformed
         // TODO add your handling code here:
@@ -294,6 +539,210 @@ public class Screen0 extends javax.swing.JFrame {
         startDikjstra();
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+            graphV = null;
+            System.out.println(Arrays.toString(graphVisualPanel.getComponents()));
+            graphVisualPanel.removeAll();
+            System.out.println("check is true");
+            graph.fillGraph(file1, file2);
+            graphV = new Visual(graphVisualPanel, graph, this);
+            graphVisualPanel.add(graphV);
+            //this.setSize(this.getWidth() + 1, this.getHeight());
+            nodes = graph.getNodeList();
+            adjacentList = graph.getAdjacentList();
+            screenTabbedPane.setEnabledAt(1, true);
+            graphV.repaint();
+            //deactivate the check box
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void listButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listButtonActionPerformed
+        // TODO add your handling code here:
+        
+        //initial variable
+        String[] type = {"N", "O", "M"};
+        Node n1 = null;
+        Node n2 = null;
+        String s = "";
+        int index = choiceComboBox.getSelectedIndex();
+        
+        switch(index){
+            case 0:
+                if(typeComboBox.isEnabled()){
+                    s = graph.printNodesByType(type[typeComboBox.getSelectedIndex()]);
+                }else{
+                    s = graph.printNodesByType(null);
+                }
+                break;
+            case 1:
+                s = graph.printEdgeAndNumber();
+                break;
+            case 2:
+                n1 = graph.getNodeByString("S" + functionNodeSpinner.getValue());
+                for(Node n : graph.printDirectConnectedNode(n1)){
+                    if(!n.equals(n1)){
+                        s += n1.getId() + " connected to -> " + n.getId() + "\n";
+                    } 
+                }
+                break;
+            case 3:
+                
+                s = graph.printDirectConnectedNodeByType(graph.getNodeByString("S" + functionNodeSpinner.getValue()), type[typeComboBox.getSelectedIndex()]);
+                break;
+            case 4:
+                n1 = graph.getNodeByString("S" + functionNodeSpinner.getValue());
+                n2 = graph.getNodeByString("S" + functionNodeSpinner2.getValue());
+                s = graph.printTwoNodeWithType(n1, n2,  type[typeComboBox.getSelectedIndex()]);
+                break;
+            case 5:
+                n1 = graph.getNodeByString("S" + functionNodeSpinner.getValue());
+                n2 = graph.getNodeByString("S" + functionNodeSpinner2.getValue());
+                s = graph.printNodeAreConnectedAt2Dist(n1, n2);
+                break;
+            case 6:
+                n1 = graph.getNodeByString("S" + functionNodeSpinner.getValue());
+                n2 = graph.getNodeByString("S" + functionNodeSpinner2.getValue());
+                
+                double fiab = 1.0; 
+                
+                ArrayList<Node> pathFiab = graph.printShortByFiability(n1, n2);
+                for(int i = 0; i < pathFiab.size()-1; i++){
+                    s += pathFiab.get(i).getId() + " -> ";
+                    System.out.println("fiab :" + graph.getFiabiliteBetweenTwoNodes(pathFiab.get(i), pathFiab.get(i+1)));
+                    fiab *= graph.getFiabiliteBetweenTwoNodes(pathFiab.get(i), pathFiab.get(i+1)) / 10;
+                }
+//                for(Node n : graph.printShortByFiability(n1, n2)){
+//                    
+//                    if(n.equals(n1)){
+//                            
+//                    }else{
+//                            fiab = (fiab / 10) *   graph.getFiabiliteBetweenTwoNodes(n, prev);
+//                    }
+//                    if(!n.equals(n2)){
+//                        s += n.getId() + " -> ";
+//                    }else{
+//                        s += n.getId();
+//                    }
+//                    prev = n;
+//                }
+                s += "fiablity = " + fiab;
+                break;
+            case 7:
+                n1 = graph.getNodeByString("S" + functionNodeSpinner.getValue());
+                n2 = graph.getNodeByString("S" + functionNodeSpinner2.getValue());
+                
+                int sumTime = 0;
+                
+                ArrayList<Node> pathTime = graph.printShortByDistanceOrTime(n1, n2, "t");
+                for(int i = 0; i < pathTime.size()-1; i++){
+                    s += pathTime.get(i).getId() + " -> ";
+                    System.out.println("fiab :" + graph.getDistanceOrTimeBetweenTwoNodes(pathTime.get(i), pathTime.get(i+1), "t"));
+                    sumTime *= graph.getFiabiliteBetweenTwoNodes(pathTime.get(i), pathTime.get(i+1));
+                }
+                
+                s += "time :" + sumTime;
+                break;
+            case 8:
+                n1 = graph.getNodeByString("S" + functionNodeSpinner.getValue());
+                n2 = graph.getNodeByString("S" + functionNodeSpinner2.getValue());
+                
+                int sumDist = 0;
+                
+                ArrayList<Node> pathDist = graph.printShortByDistanceOrTime(n1, n2, "t");
+                for(int i = 0; i < pathDist.size()-1; i++){
+                    s += pathDist.get(i).getId() + " -> ";
+                    System.out.println("fiab :" + graph.getDistanceOrTimeBetweenTwoNodes(pathDist.get(i), pathDist.get(i+1), "t"));
+                    sumDist *= graph.getFiabiliteBetweenTwoNodes(pathDist.get(i), pathDist.get(i+1));
+                }
+                
+                s += "time :" + sumDist;
+                break;
+                
+        }
+        printTextArea.setText(s);
+        
+        
+    }//GEN-LAST:event_listButtonActionPerformed
+
+    private void screenTabbedPaneMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_screenTabbedPaneMouseClicked
+        // TODO add your handling code here:
+        if(EdgeNodeCheckBox.isSelected()){
+            String[] s = graphV.EdgeConnectedNode(evt.getX(), evt.getY()).split(";");
+            JOptionPane.showMessageDialog(null, "this  edge  connnect " + s[0] +" et " + s[1], "Information", JOptionPane.INFORMATION_MESSAGE);
+            System.out.println("this  edge  connnect " + s[0] +" et " + s[1]);
+        }
+    }//GEN-LAST:event_screenTabbedPaneMouseClicked
+
+    private void EdgeNodeCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EdgeNodeCheckBoxActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_EdgeNodeCheckBoxActionPerformed
+
+    private void choiceComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_choiceComboBoxActionPerformed
+        // TODO add your handling code here:
+        int index = choiceComboBox.getSelectedIndex();
+        
+        //init the buttons tu false (hide them)
+        functionNodeSpinner.setEnabled(false);
+        functionNodeSpinner2.setEnabled(false);
+        typeCheckBox.setEnabled(false);
+        typeComboBox.setEnabled(false);
+        
+        if (index !=  choiceComboBox.getItemCount()-1) listButton.setEnabled(true);
+        switch(index){
+            case 0:
+                typeCheckBox.setEnabled(true);
+                break;
+            case 1:
+                break;
+            case 2:
+                functionNodeSpinner.setEnabled(true);
+                break;
+            case 3:
+                functionNodeSpinner.setEnabled(true);
+                typeComboBox.setEnabled(true);
+                break;
+            case 4:
+                functionNodeSpinner.setEnabled(true);
+                functionNodeSpinner2.setEnabled(true);
+                break;
+            case 5:
+                functionNodeSpinner.setEnabled(true);
+                functionNodeSpinner2.setEnabled(true);
+                break;
+            case 6:
+                functionNodeSpinner.setEnabled(true);
+                functionNodeSpinner2.setEnabled(true);
+                break;
+            case 7:
+                functionNodeSpinner.setEnabled(true);
+                functionNodeSpinner2.setEnabled(true);
+                break;
+            default:
+                listButton.setEnabled(false);
+        }
+        
+    }//GEN-LAST:event_choiceComboBoxActionPerformed
+
+    private void typeComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_typeComboBoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_typeComboBoxActionPerformed
+
+    private void typeCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_typeCheckBoxActionPerformed
+        // TODO add your handling code here:
+        typeComboBox.setEnabled(typeCheckBox.isSelected());
+    }//GEN-LAST:event_typeCheckBoxActionPerformed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        // TODO add your handling code here:
+        screenTabbedPane.setEnabledAt(1, false);
+    }//GEN-LAST:event_formWindowOpened
+
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+        // TODO add your handling code here:
+        System.out.println(screenTabbedPane.getSelectedComponent());
+    }//GEN-LAST:event_formWindowActivated
+
     public File getFile1() {
         return file1;
     }
@@ -308,8 +757,8 @@ public class Screen0 extends javax.swing.JFrame {
             int endNode = (int) endSpinner.getValue();        
             if(startNode != endNode){
                 graph.initialColor();
-                graph.printShortByDistanceOrTime(graph.getNodeByNum(startNode), graph.getNodeByNum(endNode), "t");
-                graph.printShortByDistanceOrTime(graph.getNodeByString("S1"), graph.getNodeByString("S17"), "t");
+                graph.printShortByFiability(graph.getNodeByNum(startNode), graph.getNodeByNum(endNode));
+                graph.printShortByFiability(graph.getNodeByString("S1"), graph.getNodeByString("S17"));
             }
         }
     }
@@ -387,20 +836,43 @@ public class Screen0 extends javax.swing.JFrame {
         return null;
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JCheckBox EdgeNodeCheckBox;
+    private javax.swing.JComboBox<String> choiceComboBox;
     private javax.swing.JCheckBox dijkstraCheckBox;
     private javax.swing.JSpinner endSpinner;
     private javax.swing.JLabel fileStatusLabel;
+    private javax.swing.JSpinner functionNodeSpinner;
+    private javax.swing.JSpinner functionNodeSpinner2;
     private javax.swing.JPanel graphVisualPanel;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JCheckBox listAdjacentCheckBox;
+    private javax.swing.JButton listButton;
     private javax.swing.JCheckBox listSuccesseurCheckBox;
+    private javax.swing.JPanel printPanel;
+    private javax.swing.JTextArea printTextArea;
+    private javax.swing.JTabbedPane screenTabbedPane;
     private javax.swing.JButton showGraphButton;
     private javax.swing.JSpinner startSpinner;
+    private javax.swing.JButton succFileButton;
+    private javax.swing.JCheckBox typeCheckBox;
+    private javax.swing.JComboBox<String> typeComboBox;
     // End of variables declaration//GEN-END:variables
 }
